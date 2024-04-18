@@ -1,4 +1,4 @@
-const { logger } = require('./logger');
+const { logger } = require('../config/logger');
 
 const requestLogger = (req, res, next) => {
   res.on('finish', () => {
@@ -10,7 +10,7 @@ const requestLogger = (req, res, next) => {
       user: req.user ? req.user.id : 'Guest',
     });
   });
-//   console.log(Object.keys(res));
+  //   console.log(Object.keys(res));
 
   next();
 };
