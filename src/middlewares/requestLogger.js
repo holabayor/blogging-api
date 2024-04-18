@@ -10,7 +10,7 @@ const requestLogger = (req, res, next) => {
       user: req.user ? req.user.id : 'Guest',
     });
   });
-  console.log(Object.keys(res));
+//   console.log(Object.keys(res));
 
   next();
 };

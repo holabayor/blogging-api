@@ -31,7 +31,7 @@ const disconnectDB = async () => {
     await mongoose.connection.close();
     // await global.__MONGOD__.stop();
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     console.error('❌Failed to disconnect from MongoDB');
     process.exit(1);
   }
