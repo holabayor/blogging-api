@@ -52,7 +52,7 @@ const routeNotFound = (req, res, next) => {
     url: req.originalUrl,
     ip: req.ip,
     status: res.status,
-    user: req.user ? req.user.id : 'Guest User',
+    user: req.user ? req.user.id : 'Guest',
   });
 
   res.status(404).json({ success: false, message });
@@ -74,7 +74,7 @@ const errorHandler = (err, req, res, next) => {
     url: req.originalUrl,
     ip: req.ip,
     status: err.status,
-    user: req.user ? req.user.id : 'Guest User',
+    user: req.user ? req.user.id : 'Guest',
     stack: err.stack,
   });
 
