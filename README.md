@@ -20,20 +20,8 @@ This project is a blogging platform backend where users can manage their blogs a
 - **Mongoose**: MongoDB object modeling tool
 - **JWT**: For token based authentication
 - **Winston**: Logging
-- **Jest/Supertest**: For unit and integration testing
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-What things you need to install the software and how to install them:
-
-```bash
-node.js - Download and install from [Node.js website](https://nodejs.org/)
-MongoDB - Follow the installation guide on the [MongoDB official documentation](https://docs.mongodb.com/manual/installation/)
-```
+- **Jest/Supertest**: For unit and integration testing.
+- **Render**: Hosting and deployment platform.
 
 ## Installation Instructions
 
