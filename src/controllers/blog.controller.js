@@ -125,9 +125,7 @@ const deleteBlog = async (req, res) => {
   const { id } = validate(paramIdSchema, req.params);
   const data = await blogService.deleteBlog(id, req.user.id);
   if (data) {
-    return res
-      .status(200)
-      .json({ success: true, message: 'Blog deleted successfully', data });
+    return res.status(204).json({});
   }
 };
 

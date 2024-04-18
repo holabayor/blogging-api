@@ -1,12 +1,14 @@
 const express = require('express');
 const routes = require('./routes');
 const { errorHandler, routeNotFound } = require('./middlewares/errors');
+const requestLogger = require('./middlewares/requestLogger');
 
 // Initialize express app
 const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(requestLogger);
 
 // Routes
 app.use('/api/auth', routes.authRoute);

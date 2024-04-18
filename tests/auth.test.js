@@ -5,11 +5,19 @@ const app = require('../src/app');
 const { connectDB, disconnectDB } = require('../src/config/db');
 
 describe('AUTHENTICATION TESTS', () => {
+  const userData = {
+    first_name: 'Scott',
+    last_name: 'Jones',
+    email: 'testuser@mail.com',
+    password: 'password123',
+  };
+
   beforeAll(async () => {
     await connectDB();
   });
 
   afterAll(async () => {
+    // await User.deleteMany({});
     await disconnectDB();
   });
 
@@ -25,20 +33,14 @@ describe('AUTHENTICATION TESTS', () => {
     });
 
     it('should register a new user with a 201 status code', async () => {
-      const response = await request(app).post('/api/auth/register').send({
-        first_name: 'Scott',
-        last_name: 'Jones',
-        email: 'testuser@mail.com',
-        password: 'password',
-      });
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send(userData);
       expect(response.status).toBe(201);
       expect(response.body.success).toEqual(true);
       expect(response.body.message).toEqual('User created successfully');
       expect(response.body.data.user).toHaveProperty('_id');
-      expect(response.body.data.user).toHaveProperty(
-        'email',
-        'testuser@mail.com'
-      );
+      expect(response.body.data.user).toHaveProperty('email', userData.email);
       expect(response.body.data.user).not.toHaveProperty('password');
     });
 
@@ -46,28 +48,29 @@ describe('AUTHENTICATION TESTS', () => {
       const response = await request(app).post('/api/auth/register').send({
         first_name: 'Anonymous',
         last_name: 'User',
-        email: 'testuser@mail.com',
+        email: userData.email,
         password: 'password123',
       });
-      //   console.log(response);
+
       expect(response.status).toBe(409);
       expect(response.body.success).toEqual(false);
       expect(response.body.message).toEqual('User already exists');
     });
-  });
 
-  it('should return 422 if password is too short', async () => {
-    const response = await request(app).post('/api/auth/register').send({
-      first_name: 'Alice',
-      last_name: 'Wonder',
-      email: 'alice@example.com',
-      password: 'short',
+    it('should return 422 if password is less than 6 characters', async () => {
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send({
+          ...userData,
+          password: 'short',
+        });
+
+      expect(response.status).toBe(422);
+      expect(response.body.success).toEqual(false);
+      expect(response.body.message).toContain(
+        'password length must be at least 6 characters long'
+      );
     });
-    expect(response.status).toBe(422);
-    expect(response.body.success).toEqual(false);
-    expect(response.body.message).toContain(
-      'password length must be at least 6 characters long'
-    );
   });
 
   describe('POST /api/auth/login', () => {
@@ -75,25 +78,40 @@ describe('AUTHENTICATION TESTS', () => {
       const response = await request(app).post('/api/auth/login').send({
         email: 'testuser@mail.com',
       });
-      // console.log(response);
+
       expect(response.status).toBe(422);
       expect(response.body.success).toEqual(false);
+      expect(response.body.message).toBe('password is required');
     });
 
     it('should login a new user with a 200 status code', async () => {
       const response = await request(app).post('/api/auth/login').send({
-        email: 'testuser@mail.com',
-        password: 'password',
+        email: userData.email,
+        password: userData.password,
       });
+
       expect(response.status).toBe(200);
       expect(response.body.success).toEqual(true);
       expect(response.body.message).toEqual('Log in successful');
+      expect(response.body.data).toHaveProperty('accessToken');
+      expect(response.body.data.user).toHaveProperty('_id');
+      expect(response.body.data.user).not.toHaveProperty('password');
     });
 
-    it('should return 401 if credentials are incorrect', async () => {
+    it('should return a 401 error if email is incorrect', async () => {
+      const response = await request(app).post('/api/auth/login').send({
+        email: 'testeduser@mail.com',
+        password: 'password123',
+      });
+      expect(response.status).toBe(401);
+      expect(response.body.success).toEqual(false);
+      expect(response.body.message).toEqual('Invalid login credentials');
+    });
+
+    it('should return a 401 error if password is incorrect', async () => {
       const response = await request(app).post('/api/auth/login').send({
         email: 'testuser@mail.com',
-        password: 'password123',
+        password: 'password',
       });
       expect(response.status).toBe(401);
       expect(response.body.success).toEqual(false);

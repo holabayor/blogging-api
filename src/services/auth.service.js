@@ -23,7 +23,7 @@ const createUser = async (payload) => {
 
 const login = async (email, password) => {
   const user = await getUserByEmail(email);
-  if (!user) throw new ResourceNotFound('User not found');
+  if (!user) throw new Unauthorized('Invalid login credentials');
 
   const isValidPassword = await comparePassword(password, user.password);
   if (!isValidPassword) throw new Unauthorized('Invalid login credentials');

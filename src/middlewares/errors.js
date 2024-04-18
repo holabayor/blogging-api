@@ -1,3 +1,5 @@
+const { logger } = require('./logger');
+
 class CustomError extends Error {
   constructor(statusCode, message) {
     super(message);
@@ -45,6 +47,14 @@ class InvalidInput extends CustomError {
 
 const routeNotFound = (req, res, next) => {
   const message = 'Route not found';
+  logger.error('Error', {
+    method: req.method,
+    url: req.originalUrl,
+    ip: req.ip,
+    status: res.status,
+    user: req.user ? req.user.id : 'Guest User',
+  });
+
   res.status(404).json({ success: false, message });
 };
 
@@ -57,6 +67,17 @@ const errorHandler = (err, req, res, next) => {
   const message = err.message || 'Internal Server Error';
 
   const cleanedMessage = message.replace(/"/g, '');
+
+  // logger.error(err);
+  logger.error(message, {
+    method: req.method,
+    url: req.originalUrl,
+    ip: req.ip,
+    status: err.status,
+    user: req.user ? req.user.id : 'Guest User',
+    stack: err.stack,
+  });
+
   res.status(status).json({
     success,
     message: cleanedMessage,

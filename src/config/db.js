@@ -5,10 +5,10 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const connectDB = async () => {
   let mongodbUri = process.env.MONGODB_URI;
 
-  // Define mock database connection for testing purposes
   if (process.env.NODE_ENV === 'test') {
-    mongoServer = await MongoMemoryServer.create();
+    const mongoServer = await MongoMemoryServer.create();
     mongodbUri = mongoServer.getUri();
+    console.log('Mongo server uri is ', mongodbUri);
   }
 
   if (!mongodbUri) {
@@ -26,11 +26,12 @@ const connectDB = async () => {
   }
 };
 
-// Disconnect from MongoDB
 const disconnectDB = async () => {
   try {
     await mongoose.connection.close();
+    // await global.__MONGOD__.stop();
   } catch (error) {
+    console.log(error);
     console.error('❌Failed to disconnect from MongoDB');
     process.exit(1);
   }

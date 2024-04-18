@@ -108,7 +108,7 @@ const publishBlog = async (blogId, authorId) => {
     { new: true }
   ).populate('author');
 
-  if (!blog) throw new Unauthorized('Unauthorized');
+  if (!blog) throw new Unauthorized('Not authorized to publish blog');
   return blog;
 };
 
@@ -120,7 +120,7 @@ const deleteBlog = async (blogId, authorId) => {
     _id: blogId,
     author: authorId,
   }).populate('author');
-  if (!blog) throw new ResourceNotFound('Not authorized to delete blog');
+  if (!blog) throw new Unauthorized('Not authorized to delete blog');
 
   return blog;
 };
