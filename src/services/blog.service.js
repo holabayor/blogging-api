@@ -52,7 +52,6 @@ const getAllPublishedBlogs = async (
     }
     if (searchParams.tags) {
       query.tags = { $in: new RegExp(searchParams.tags, 'i') };
-      console.log(searchParams.tags);
     }
     if (searchParams.author) {
       const authorIds = await User.find({

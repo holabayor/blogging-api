@@ -3,13 +3,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 // Connect to MongoDB
 const connectDB = async () => {
-  let mongodbUri = process.env.MONGODB_URI;
-
-  if (process.env.NODE_ENV === 'test') {
-    const mongoServer = await MongoMemoryServer.create();
-    mongodbUri = mongoServer.getUri();
-    console.log('Mongo server uri is ', mongodbUri);
-  }
+  const mongodbUri = process.env.MONGODB_URI;
 
   if (!mongodbUri) {
     console.error('MongoDB URI not found in environment variables');
@@ -26,19 +20,7 @@ const connectDB = async () => {
   }
 };
 
-const disconnectDB = async () => {
-  try {
-    await mongoose.connection.close();
-    // await global.__MONGOD__.stop();
-  } catch (error) {
-    // console.log(error);
-    console.error('❌Failed to disconnect from MongoDB');
-    process.exit(1);
-  }
-};
-
 module.exports = {
   connectDB,
-  disconnectDB,
   mongoose,
 };
