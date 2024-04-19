@@ -67,7 +67,7 @@ npm start
 | PATCH   | `/api/blogs/:id`         | Yes       | Edit a specific blog                            |
 | PATCH   | `/api/blogs/:id/publish` | Yes       | Publish a specific blog                         |
 | DELETE  | `/api/blogs/:id`         | Yes       | Deletes a specific blog                         |
-| GET     | `/api/users/blogs`       | Yes       | Retrieves all blogs from the authenticated user |
+| GET     | `/api/users/me/blogs`    | Yes       | Retrieves all blogs from the authenticated user |
 
 ## Running the tests
 
