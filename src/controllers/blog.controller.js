@@ -24,6 +24,8 @@ const getAllBlogs = async (req, res) => {
   const values = validate(queryParamSchema, req.query);
   const { page, limit, order, order_by } = values;
 
+  const { state } = req.query;
+
   // console.log('Requesting user is ', req.user);
   const authorId = req.user.id;
 
@@ -32,6 +34,7 @@ const getAllBlogs = async (req, res) => {
     limit,
     order,
     order_by,
+    state,
     authorId
   );
 

@@ -17,9 +17,13 @@ const getBlogById = async (id) => {
   return blog;
 };
 
-const getAllBlogs = async (page, limit, order, order_by, authorId) => {
+const getAllBlogs = async (page, limit, order, order_by, state, authorId) => {
   const query = { author: authorId };
   const skip = (page - 1) * limit;
+
+  if (state) {
+    query.state = state;
+  }
 
   const blogs = await Blog.find(query)
     .populate('author')
@@ -41,12 +45,13 @@ const getAllPublishedBlogs = async (
   const skip = (page - 1) * limit;
 
   // Extending the query parameters to include the search functionalities
+  // I'm using regex to match the search parameters whilst ignoring the case sensitivity
   if (searchParams) {
     if (searchParams.title) {
       query.title = { $regex: new RegExp(searchParams.title, 'i') };
     }
     if (searchParams.tags) {
-      query.tags = { $in: searchParams.tags };
+      query.tags = { $in: new RegExp(searchParams.tags, 'i') };
     }
     if (searchParams.author) {
       const authorIds = await User.find({
@@ -59,6 +64,7 @@ const getAllPublishedBlogs = async (
     }
   }
 
+  // console.log(query);
   const blogs = await Blog.find(query)
     .populate('author')
     .skip(skip)

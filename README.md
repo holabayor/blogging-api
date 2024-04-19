@@ -67,13 +67,16 @@ npm start
 | PATCH   | `/api/blogs/:id`         | Yes       | Edit a specific blog                            |
 | PATCH   | `/api/blogs/:id/publish` | Yes       | Publish a specific blog                         |
 | DELETE  | `/api/blogs/:id`         | Yes       | Deletes a specific blog                         |
-| GET     | `/api/users/blogs`       | Yes       | Retrieves all blogs from the authenticated user |
+| GET     | `/api/users/me/blogs`    | Yes       | Retrieves all blogs from the authenticated user |
 
 ## Running the tests
 
 ```bash
 npm test
 ```
+
+- Live Base URL - https://blogging-api-4nov.onrender.com
+<!-- - [Live link](https://blogging-api-4nov.onrender.com/api/blogs) -->
 
 ## Author
 

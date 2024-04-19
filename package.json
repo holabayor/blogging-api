@@ -4,7 +4,7 @@
   "description": "This project is a blogging platform backend where users can manage their blogs and read others' blogs. It supports features like user registration, login, blog creation, and the ability to edit, delete, or change the state of blogs from draft to published.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --testTimeout=40000 --detectOpenHandles",
+    "test": "jest --verbose",
     "dev": "nodemon src/index",
     "start": "node src/index.js"
   },
@@ -24,5 +24,11 @@
     "mongoose": "^8.3.2",
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

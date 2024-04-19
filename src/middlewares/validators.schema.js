@@ -45,6 +45,10 @@ const queryParamSchema = Joi.object({
     .valid('created_at', 'updated_at', 'title', 'read_count', 'reading_time')
     .default('created_at'),
   order: Joi.string().valid('asc', 'desc').default('desc'),
+  author: Joi.string().trim().optional(),
+  state: Joi.string().trim().optional(),
+  title: Joi.string().trim().optional(),
+  tags: Joi.string().trim().optional(),
 });
 
 module.exports = {
