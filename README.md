@@ -75,6 +75,8 @@ npm start
 npm test
 ```
 
+- ERD Diagram ![blogging api](https://github.com/holabayor/blogging-api/assets/39333226/de483513-c6e0-4a93-9778-e23219bdfdae)
+
 - Live Base URL - https://blogging-api-4nov.onrender.com
 <!-- - [Live link](https://blogging-api-4nov.onrender.com/api/blogs) -->
 
