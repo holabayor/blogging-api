@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const request = require('supertest');
 const app = require('../src/app');
-const { connectDB, disconnectDB } = require('../src/config/db');
+const { connectDB, disconnectDB } = require('./testdb');
 
 describe('AUTHENTICATION TESTS', () => {
   const userData = {

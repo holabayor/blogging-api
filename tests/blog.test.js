@@ -2,10 +2,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 const request = require('supertest');
 const app = require('../src/app');
-const { connectDB, disconnectDB } = require('../src/config/db');
 const User = require('../src/models/users.model');
 const Blog = require('../src/models/blogs.model');
 const { generateToken } = require('../src/utils');
+const { connectDB, disconnectDB } = require('./testdb');
 
 describe('BLOG ROUTES TESTS', () => {
   let token, blogId;
