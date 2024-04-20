@@ -5,7 +5,7 @@ This project is a blogging platform backend where users can manage their blogs a
 ## Features
 
 - User authentication (sign up, sign in)
-- JWT authentication with 1-hour token expiration
+- JWT authentication with token expiration
 - CRUD operations for blog posts
 - Blog states management (draft and published)
 - Pagination, search, and sorting for blog listings
@@ -41,11 +41,11 @@ npm install
 ```
 
 3. **Set up environment variables**
-   Create a `.env` file in the root directory and fill it with the necessary environment variables:
+   Create a `.env` file in the root directory and fill it with the following environment variables:
 
 ```bash
-DB_URI=mongodb://localhost:27017/bloggingdb
-JWT_SECRET=your_jwt_secret
+MONGODB_URI=mongodb://localhost:27017/bloggingdb
+JWT_SECRET_KEY=your_jwt_secret
 PORT=4000
 ```
 
