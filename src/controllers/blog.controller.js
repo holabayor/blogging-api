@@ -63,7 +63,7 @@ const getPublishedBlogs = async (req, res) => {
   const { page, limit, order, orderBy } = values;
 
   const { author, title, tags } = req.query;
-  const searchParams = { author, title, tags };
+  const searchParams = req.query.q;
 
   const { blogs, totalCount } = await blogService.getAllPublishedBlogs(
     page,
