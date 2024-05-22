@@ -11,6 +11,7 @@ This project is a blogging platform backend where users can manage their blogs a
 - Pagination, search, and sorting for blog listings
 - Auto-calculated reading time for blogs
 - Update read count upon blog viewing
+- Caching with Redis for improved performance on frequently accessed data
 
 ## Tech Stack
 
@@ -18,6 +19,7 @@ This project is a blogging platform backend where users can manage their blogs a
 - **Express.js**: Web application framework for Node.js
 - **MongoDB**: NoSQL Database
 - **Mongoose**: MongoDB object modeling tool
+- **Redis**: In-memory data structure store for caching
 - **JWT**: For token based authentication
 - **Winston**: Logging
 - **Jest/Supertest**: For unit and integration testing.
