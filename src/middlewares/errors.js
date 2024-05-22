@@ -46,7 +46,7 @@ class InvalidInput extends CustomError {
 }
 
 const routeNotFound = (req, res, next) => {
-  const message = 'Route not found';
+  const message = `${req.method} ${req.url} not found`;
   logger.error('Error', {
     method: req.method,
     url: req.originalUrl,

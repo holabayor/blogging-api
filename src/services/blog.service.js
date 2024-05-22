@@ -5,6 +5,7 @@ const {
   Unauthorized,
   Conflict,
 } = require('../middlewares/errors');
+const redisClient = require('../integrations/redis');
 
 const getBlogById = async (id) => {
   const blog = await Blog.findOneAndUpdate(
@@ -25,12 +26,28 @@ const getAllBlogs = async (page, limit, order, order_by, state, authorId) => {
     query.state = state;
   }
 
+  const cacheKey = `blogs:${JSON.stringify(query)}`;
+
+  const cachedData = await redisClient.get(cacheKey);
+
+  if (cachedData) {
+    // console.log('cache hit');
+    return JSON.parse(cachedData);
+  }
+
+  console.log('Cache miss');
+
   const blogs = await Blog.find(query)
     .populate('author')
     .skip(skip)
     .limit(limit)
     .sort([[order_by, order]]);
   const totalCount = await Blog.countDocuments(query);
+  await redisClient.setEx(
+    cacheKey,
+    10 * 60,
+    JSON.stringify({ blogs, totalCount })
+  );
   return { blogs, totalCount };
 };
 
@@ -64,6 +81,18 @@ const getAllPublishedBlogs = async (
     }
   }
 
+  const cacheKey = `blogs:${JSON.stringify(query)}`;
+
+  const cachedData = await redisClient.get(cacheKey);
+
+  if (cachedData) {
+    // console.log('Cache hit');
+    // console.log('From the cache', typeof JSON.parse(cachedData));
+    return JSON.parse(cachedData);
+  }
+
+  console.log('Cache miss');
+
   // console.log(query);
   const blogs = await Blog.find(query)
     .populate('author')
@@ -71,6 +100,14 @@ const getAllPublishedBlogs = async (
     .limit(limit)
     .sort([[order_by, order]]);
   const totalCount = await Blog.countDocuments(query);
+
+  // Set the value into cache
+  await redisClient.setEx(
+    cacheKey,
+    10 * 60,
+    JSON.stringify({ blogs, totalCount })
+  );
+
   return { blogs, totalCount };
 };
 
