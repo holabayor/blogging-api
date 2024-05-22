@@ -5,3 +5,6 @@ logs
 // Personal test and debugging files
 pjest*
 *.tested*
+
+// Redis files
+dump.rdb

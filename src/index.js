@@ -3,7 +3,7 @@ dotenv.config();
 const http = require('http');
 const app = require('./app');
 const { connectDB } = require('./config/db');
-const redis = require('./integrations/redis');
+const redisClient = require('./integrations/redis');
 
 // Initialize express app
 const port = parseInt(process.env.PORT || '8900');
@@ -11,10 +11,12 @@ const port = parseInt(process.env.PORT || '8900');
 // Create server
 const server = http.createServer(app);
 
+// Connect to the redis client
+redisClient.connect();
+
 // Start application with DB connection
 connectDB()
   .then(() => {
-    redis.connect();
     server.listen(port, () => {
       console.log(`⚡️Server is running on port ${port}`);
     });
